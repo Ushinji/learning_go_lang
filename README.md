@@ -1,5 +1,7 @@
 # what is ?
-learning go lang.
+Learning go lang by reading a following post.
+
+[Go Web プログラミング](https://astaxie.gitbooks.io/build-web-application-with-golang/content/ja/)
 
 # Execute
 
