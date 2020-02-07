@@ -1,11 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"strings"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func sayhelloName(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +37,24 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	db, dbErr := sql.Open("mysql", "root:@/learning_go?charset=utf8mb4")
+	if dbErr != nil {
+		log.Fatal("DB Error: ", dbErr)
+	}
+	stmt, dbErr := db.Prepare("INSERT users SET display_name=?,created_at=?")
+	if dbErr != nil {
+		log.Fatal("DB Prepare Error: ", dbErr)
+	}
+	res, dbErr := stmt.Exec("Test User", "2020-02-02")
+	if dbErr != nil {
+		log.Fatal("DB Exec Error: ", dbErr)
+	}
+	id, dbErr := res.LastInsertId()
+	if dbErr != nil {
+		log.Fatal("DB LastInsertId Error: ", dbErr)
+	}
+	log.Fatal("DB Id: ", id)
+
 	http.HandleFunc("/", sayhelloName)
 	http.HandleFunc("/login", login)
 	err := http.ListenAndServe(":9090", nil)
