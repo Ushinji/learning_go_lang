@@ -53,5 +53,8 @@ Temporary Items
 
 # App
 .envrc
+bin
+.vscode
+pkg
 
 # End of https://www.gitignore.io/api/go,macos
